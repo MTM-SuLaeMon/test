@@ -4,15 +4,21 @@ name: myworkflow
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
+    branches: [ "main" ]                # Trigger workflow when pushing to main branch
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main" ]                # Trigger when a pull request is made to develop branch
+  schedule:
+    - cron: '0 0 * * 1'            # Trigger every Monday (minutes, hours, day of month, month, day of week)
+  release:
+    types: [published]                  # New release published
+  issue_comment:
+    types: [created, edited, deleted]   # Trigger on comment created, edited, or deleted
+  delete:
+    branches:                           # Trigger only when a branch is deleted
+      - 'feature/*'                     # All branches starting with 'feature/'
 
-  # Allows you to run this workflow manually from the Actions tab
-   workflow_dispatch:
-
+  workflow_dispatch:                    # Allow manual triggering of the workflow
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
